@@ -76,7 +76,10 @@ namespace MakBot
                 var tokenAPI = await response.Content.ReadAsStringAsync();
                 var json = JsonConvert.DeserializeObject<OAuthToken>(tokenAPI);
 
-                return token = json.access_token;
+                if (!string.IsNullOrEmpty(json.Access_token))
+                    token = json.Access_token;
+
+                return token;
             }
 
             return token;

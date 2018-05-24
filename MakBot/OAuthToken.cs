@@ -9,8 +9,8 @@ namespace MakBot
     /// </summary>
     public class OAuthToken
     {
-        public string access_token { get; set; }
-        public int expires_in { get; set; }
+        public string Access_token { get; set; }
+        public int Expires_in { get; set; }
     }
 
 }

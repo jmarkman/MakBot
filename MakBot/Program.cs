@@ -39,7 +39,7 @@ namespace MakBot
             {
                 await msg.Channel.SendMessageAsync("Pong!");
             }
-            else if (msg.Content.Equals("!MakOnline"))
+            else if (msg.Content.Equals("!status"))
             {
                 TwitchAccess twitchAccess = new TwitchAccess(""); // ULTRA TODO: hide the client-id
                 var stream = await twitchAccess.GetStreamInfoAsync();
@@ -50,6 +50,15 @@ namespace MakBot
                 else
                     await msg.Channel.SendMessageAsync("Mak isn't online :(");
 
+            }
+            else if (msg.Content.Contains("!clip"))
+            {
+                await msg.Channel.SendMessageAsync("Fetching clip...");
+
+                ClipAccess clip = new ClipAccess(msg.Content);
+                var selectedClip = clip.GetClip();
+
+                await msg.Channel.SendMessageAsync($"Clip: {selectedClip.Filename}\nSummary: {selectedClip.Summary}");
             }
         }
     }
