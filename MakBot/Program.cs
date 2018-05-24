@@ -9,18 +9,18 @@ namespace MakBot
 {
     class Program
     {
-         
+
         static void Main(string[] args) => new Program().MainAsync().GetAwaiter().GetResult();
 
         public async Task MainAsync()
-        {        
+        {
             var client = new DiscordSocketClient();
 
             client.Log += Log;
 
             client.MessageReceived += MessageReceived;
 
-            string myToken = ""; // TODO: hide your key, genius
+            string myToken = ""; // ULTRA TODO: hide your key, genius
             await client.LoginAsync(TokenType.Bot, myToken);
             await client.StartAsync();
 
@@ -41,14 +41,15 @@ namespace MakBot
             }
             else if (msg.Content.Equals("!MakOnline"))
             {
-                TwitchAccess twitchAccess = new TwitchAccess("");
+                TwitchAccess twitchAccess = new TwitchAccess(""); // ULTRA TODO: hide the client-id
                 var stream = await twitchAccess.GetStreamInfoAsync();
                 var isUp = twitchAccess.IsStreamUp(stream);
 
                 if (isUp)
-                    await msg.Channel.SendMessageAsync("Mak isn't online :(");
-                else
                     await msg.Channel.SendMessageAsync("MAK IS ONLINE AND DOMINATING");
+                else
+                    await msg.Channel.SendMessageAsync("Mak isn't online :(");
+
             }
         }
     }

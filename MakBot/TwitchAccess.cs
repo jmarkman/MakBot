@@ -68,7 +68,7 @@ namespace MakBot
         private async Task<string> GetAuthTokenAsync()
         {
             string token = string.Empty;
-            string url = $"{TwitchOAuthUrl}token?client_id={ClientID}&client_secret=&grant_type=client_credentials"; // Hide client secret
+            string url = $"{TwitchOAuthUrl}token?client_id={ClientID}&client_secret=&grant_type=client_credentials"; // ULTRA TODO: Hide client secret
 
             var response = await twitchClient.PostAsync(url, null);
             if (response.IsSuccessStatusCode)
@@ -76,7 +76,7 @@ namespace MakBot
                 var tokenAPI = await response.Content.ReadAsStringAsync();
                 var json = JsonConvert.DeserializeObject<OAuthToken>(tokenAPI);
 
-                return token = json.AuthToken;
+                return token = json.access_token;
             }
 
             return token;
