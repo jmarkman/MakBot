@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Threading.Tasks;
 using Discord;
 using Discord.WebSocket;
@@ -10,7 +11,18 @@ namespace MakBot
     class Program
     {
 
-        static void Main(string[] args) => new Program().MainAsync().GetAwaiter().GetResult();
+        public static IConfigurationRoot configuration;
+
+        static void Main(string[] args)
+        {
+            var builder = new ConfigurationBuilder()
+                .SetBasePath(Directory.GetCurrentDirectory())
+                .AddJsonFile("botconfig.json");
+
+            configuration = builder.Build();
+
+            new Program().MainAsync().GetAwaiter().GetResult();
+        }
 
         public async Task MainAsync()
         {
@@ -20,7 +32,7 @@ namespace MakBot
 
             client.MessageReceived += MessageReceived;
 
-            string myToken = ""; // ULTRA TODO: hide your key, genius
+            string myToken = configuration["tokens:discord"];
             await client.LoginAsync(TokenType.Bot, myToken);
             await client.StartAsync();
 
@@ -41,7 +53,7 @@ namespace MakBot
             }
             else if (msg.Content.Equals("!status"))
             {
-                TwitchAccess twitchAccess = new TwitchAccess(""); // ULTRA TODO: hide the client-id
+                TwitchAccess twitchAccess = new TwitchAccess(configuration["tokens:twitchClientID"]); // ULTRA TODO: hide the client-id
                 var stream = await twitchAccess.GetStreamInfoAsync();
                 var isUp = twitchAccess.IsStreamUp(stream);
 
